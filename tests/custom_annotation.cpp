@@ -7,22 +7,6 @@ consteval bool has_annotation(std::meta::info info, std::meta::info anno_type)
     return !std::meta::annotations_of_with_type(info, anno_type).empty();
 }
 
-template <std::same_as<std::meta::info> auto TypeInfo, std::same_as<std::meta::access_context> auto Ctx>
-    requires (std::meta::is_class_type(TypeInfo))
-consteval auto nonstatic_data_members_of_array()
-{
-    constexpr std::size_t N = std::meta::nonstatic_data_members_of(TypeInfo, Ctx).size();
-    std::array<std::meta::info, N> arr{};
-
-    auto vec = std::meta::nonstatic_data_members_of(TypeInfo, Ctx);
-    for (std::size_t i = 0; i < N; ++i)
-    {
-        arr[i] = vec[i];
-    }
-
-    return arr;
-}
-
 namespace detail
 {
 struct Debug{};
@@ -31,10 +15,10 @@ struct Debug{};
 constexpr detail::Debug Debug;
 
 struct [[=Debug]] MyStruct
-// struct MyStruct
 {
     int a;
     int b;
+    std::string asdasd;
 
     [[nodiscard]] std::string custom_format() const
     {
@@ -71,7 +55,9 @@ struct std::formatter<T>
         {
             constexpr auto info = ^^T;
             std::format_to(ctx.out(), "{} {{\n", std::meta::display_string_of(info));
-            template for (constexpr auto member : nonstatic_data_members_of_array<info, std::meta::access_context::current()>())
+
+            constexpr auto access_ctx = std::meta::access_context::unchecked();
+            template for (constexpr auto member : std::define_static_array(std::meta::nonstatic_data_members_of(info, access_ctx)))
             {
                 std::format_to(ctx.out(), "    {}: {},\n", std::meta::display_string_of(member), value.[:member:]);
             }
@@ -94,6 +80,7 @@ int main()
     MyStruct abc = {
         .a = 1,
         .b = 2,
+        .asdasd = "Hello, World!"
     };
     std::println("{}", abc);
     std::println("{:?}", abc);
