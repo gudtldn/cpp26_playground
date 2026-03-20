@@ -10,6 +10,7 @@ set_target_properties(DefaultOptions PROPERTIES
 # 실험적 기능 플래그 추가
 target_compile_options(DefaultOptions INTERFACE
         -freflection # 실험적 리플렉션 활성화
+        -fcontracts  # contracts 활성화
 
         -finput-charset=UTF-8
         -fexec-charset=UTF-8
