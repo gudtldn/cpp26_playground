@@ -63,5 +63,23 @@ void print_member_info()
 int main()
 {
     print_member_info<MyStruct>();
+    // Members of MyStruct:
+    // - MyStruct::a
+    // - MyStruct::b
+    // - constexpr MyStruct::MyStruct()
+    // - constexpr MyStruct::MyStruct(const MyStruct&)
+    // - constexpr MyStruct& MyStruct::operator=(const MyStruct&)
+    // - constexpr MyStruct::MyStruct(MyStruct&&)
+    // - constexpr MyStruct& MyStruct::operator=(MyStruct&&)
+    // - constexpr MyStruct::~MyStruct()
+
     print_member_info<MyClass>();
+    // Members of MyClass:
+    // - MyClass::a
+    // - constexpr MyClass::MyClass()
+    // - constexpr MyClass::MyClass(const MyClass&)
+    // - constexpr MyClass& MyClass::operator=(const MyClass&)
+    // - constexpr MyClass::MyClass(MyClass&&)
+    // - constexpr MyClass& MyClass::operator=(MyClass&&)
+    // - constexpr MyClass::~MyClass()
 }

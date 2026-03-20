@@ -14,4 +14,7 @@ int main()
         std::meta::display_string_of(a_info),
         std::meta::display_string_of(^^decltype(b))
     );
+
+    // a + b = 3
+    // a type: int, b type: int
 }
