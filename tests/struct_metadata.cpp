@@ -25,7 +25,7 @@ public:
     template <typename T>
     [[nodiscard]] constexpr static TypeId Of()
     {
-        constexpr auto info = ^^std::remove_cvref_t<T>;
+        constexpr auto info = std::meta::remove_cvref(^^T);
         constexpr auto display_name = std::meta::display_string_of(std::meta::dealias(info));
         return TypeId{ fnv_hash(display_name) };
     }
@@ -107,7 +107,7 @@ public:
 template <typename T>
 TypeInfo get_type_info()
 {
-    constexpr auto meta_info = ^^std::remove_cvref_t<T>;
+    constexpr auto meta_info = std::meta::remove_cvref(^^T);
     TypeInfo type_info = {
         .type_id = TypeId::Of<T>(),
         .name = std::meta::display_string_of(std::meta::dealias(meta_info)),
